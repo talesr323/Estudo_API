@@ -56,12 +56,12 @@ app.use('/projects/:id', validateProjectId); //para todos que tem '/projects/:id
 
 
 app.get('/projects', /*logRequests,*apenas dentro*/ (request, response) => {
+    response.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
     const { title } =  request.query;
 
     const results = title 
      ? projects.filter(project => project.title.includes(title))
      : projects;
-
     return response.json(results);
 });
 
