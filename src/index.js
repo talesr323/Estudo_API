@@ -57,18 +57,18 @@ app.use('/projects/:id', validateProjectId); //para todos que tem '/projects/:id
 
 app.get('/projects', /*logRequests,*apenas dentro*/ (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-    const { title } =  request.query;
+    const { codigoVenda } =  request.query;
 
-    const results = title 
-     ? projects.filter(project => project.title.includes(title))
+    const results = codigoVenda 
+     ? projects.filter(project => project.codigoVenda.includes(codigoVenda))
      : projects;
     return response.json(results);
 });
 
 app.post('/projects', (request, response) => {
-    const {title, owner} = request.body;
+    const {codigoVenda, dataVencimento, NumeroBoleto, NumeroDocumento, cliente} = request.body;
 
-    const project = {id: uuid(), title, owner };
+    const project = {id: uuid(), codigoVenda, dataVencimento, NumeroBoleto, NumeroDocumento, cliente };
 
     projects.push(project);
 
@@ -77,7 +77,7 @@ app.post('/projects', (request, response) => {
 
 app.put('/projects/:id', (request, response) => {
     const { id } = request.params;
-    const { title, owner} = request.body;
+    const { codigoVenda, dataVencimento, NumeroBoleto, NumeroDocumento, cliente } = request.body;
 
     const projectIndex = projects.findIndex(project => project.id == id);
 
@@ -86,9 +86,11 @@ app.put('/projects/:id', (request, response) => {
     }
 
     const project = {
-        id,
-        title,
-        owner,
+        codigoVenda,
+        dataVencimento,
+        NumeroBoleto,
+        NumeroDocumento,
+        cliente
     };
 
     projects[projectIndex] = project;
